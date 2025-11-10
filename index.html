@@ -16,21 +16,19 @@
             background-color: #000;
             color: #e6e6e6;
             overflow-x: hidden;
-            height: 100vh;
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
+            height: 100%;
         }
         
         section {
-            height: 100vh;
+            min-height: 100vh;
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            scroll-snap-align: start;
             position: relative;
             overflow: hidden;
+            padding: 40px 20px;
         }
         
         /* Kezdőképernyő */
@@ -297,6 +295,22 @@
             for (let i = 0; i < 30; i++) {
                 createParticle();
             }
+            
+            // Görgetés simítása a navigációs linkekhez
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
