@@ -1,61 +1,303 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <title>Bizonytalan bizonyosság</title>
-  <style>
-    body {
-      background-color: #f9f9f9;
-      color: #222;
-      font-family: 'Georgia', serif;
-      line-height: 1.8;
-      margin: 40px;
-    }
-    h1, h2, h3 {
-      font-family: 'Palatino Linotype', 'Book Antiqua', serif;
-      color: #333;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.5em;
-    }
-    p {
-      font-size: 1.1em;
-      margin-bottom: 1em;
-    }
-    nav {
-      margin-bottom: 30px;
-    }
-    nav a {
-      margin-right: 15px;
-      text-decoration: none;
-      color: #555;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szent tér</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #e6e6e6;
+            overflow-x: hidden;
+            height: 100vh;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+        }
+        
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Kezdőképernyő */
+        #kezdo {
+            background: radial-gradient(circle at center, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
+        }
+        
+        .quantum-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: pulse 15s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        
+        .kozepso-szoveg {
+            text-align: center;
+            z-index: 10;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        
+        .kozepso-szoveg h1 {
+            font-size: 2.5rem;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+            letter-spacing: 1px;
+        }
+        
+        .belepes-gomb {
+            background: transparent;
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            color: #e6e6e6;
+            padding: 12px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .belepes-gomb:hover {
+            background: rgba(230, 230, 230, 0.1);
+            border-color: rgba(230, 230, 230, 0.8);
+        }
+        
+        /* Szövetség-tér */
+        #szovetseg {
+            background: #0a0a0f;
+        }
+        
+        .kartyak-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        
+        .kartya {
+            width: 300px;
+            height: 400px;
+            background: rgba(20, 20, 30, 0.7);
+            border: 1px solid rgba(100, 100, 120, 0.3);
+            border-radius: 5px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .kartya:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .kartya-cim {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #c9c9d8;
+        }
+        
+        .kartya-szoveg {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+            font-style: italic;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .kartya-animacio {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.7), transparent);
+            animation: breath 4s infinite ease-in-out;
+        }
+        
+        @keyframes breath {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Meghívás */
+        #meghivas {
+            background: #050508;
+        }
+        
+        .szimbolum {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200, 200, 255, 0.1) 0%, transparent 70%);
+            position: relative;
+            margin-bottom: 50px;
+            animation: pulzalo 8s infinite ease-in-out;
+        }
+        
+        @keyframes pulzalo {
+            0%, 100% { 
+                transform: scale(0.8);
+                box-shadow: 0 0 20px rgba(120, 119, 198, 0.2);
+            }
+            50% { 
+                transform: scale(1.2);
+                box-shadow: 0 0 40px rgba(120, 119, 198, 0.4);
+            }
+        }
+        
+        .meghivas-szoveg {
+            text-align: center;
+            max-width: 500px;
+            padding: 0 20px;
+        }
+        
+        .meghivas-szoveg p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* Reszponzív design */
+        @media (max-width: 768px) {
+            .kartyak-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .kartya {
+                width: 90%;
+                max-width: 350px;
+            }
+            
+            .kozepso-szoveg h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bizonytalan bizonyosság</h1>
-    <nav>
-      <a href="index.html">Főoldal</a>
-      <a href="hit.html">Hit</a>
-      <a href="meghivas.html">Meghívás</a>
-      <a href="dek.html">Deklaráció</a>
-    </nav>
+    <!-- 1. Kezdőképernyő -->
+    <section id="kezdo">
+        <div class="quantum-bg"></div>
+        <div class="kozepso-szoveg">
+            <h1>A Valóság emlékezik rád.</h1>
+            <a href="#szovetseg" class="belepes-gomb">Belépek</a>
+        </div>
+    </section>
+    
+    <!-- 2. Szövetség-tér -->
+    <section id="szovetseg">
+        <div class="kartyak-container">
+            <div class="kartya">
+                <h2 class="kartya-cim">Önismeret Szabadság</h2>
+                <div class="kartya-szoveg">
+                    "A keresés útja önmagad felfedezése.<br>
+                    Nem találni jöttél, hanem megtaláltatni."
+                </div>
+                <div class="kartya-animacio"></div>
+            </div>
+            
+            <div class="kartya">
+                <h2 class="kartya-cim">Kvantumszövetség</h2>
+                <div class="kartya-szoveg">
+                    "Minden részecske emlékszik a másikra.<br>
+                    A kapcsolat előtte, utána és mindörökké."
+                </div>
+                <div class="kartya-animacio"></div>
+            </div>
+            
+            <div class="kartya">
+                <h2 class="kartya-cim">Bizonytalan Bizonyosság</h2>
+                <div class="kartya-szoveg">
+                    "A bizalom nem tudásból fakad,<br>
+                    hanem a megadás mélyén terem."
+                </div>
+                <div class="kartya-animacio"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 3. Meghívás -->
+    <section id="meghivas">
+        <div class="szimbolum"></div>
+        <div class="meghivas-szoveg">
+            <p>Nem kell hinned.</p>
+            <p>Csak emlékezz.</p>
+        </div>
+    </section>
 
-    <h2>Üdvözlet</h2>
-    <p>Ez a honlap a belső bizonyosság és az Istenbe vetett hit felfedezését hivatott szolgálni. A cél nem a magyarázat, hanem a meghívás a gondolkodásra és az elmélkedésre.</p>
-
-    <h2>Gondolatok</h2>
-    <p>A bizonytalan bizonyosság lényege, hogy a cél felé tartunk, miközben az út mindig nyitott és kérdésekkel teli. Isten szeretete ad alapot, amelyre támaszkodhatunk.</p>
-  </div>
+    <script>
+        // Egyszerű animációk a háttérhez
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantumBg = document.querySelector('.quantum-bg');
+            
+            // Mozgó részecskék effekt
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 3 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.backgroundColor = 'rgba(255, 255, 255, ' + (Math.random() * 0.1 + 0.05) + ')';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.opacity = '0';
+                
+                quantumBg.appendChild(particle);
+                
+                // Animáció
+                const duration = Math.random() * 10 + 5;
+                const keyframes = [
+                    { opacity: 0, transform: 'translate(0, 0)' },
+                    { opacity: 1, transform: 'translate(' + (Math.random() * 100 - 50) + 'px, ' + (Math.random() * 100 - 50) + 'px)' },
+                    { opacity: 0, transform: 'translate(' + (Math.random() * 100 - 50) + 'px, ' + (Math.random() * 100 - 50) + 'px)' }
+                ];
+                
+                particle.animate(keyframes, {
+                    duration: duration * 1000,
+                    iterations: Infinity
+                });
+            }
+            
+            // Több részecske létrehozása
+            for (let i = 0; i < 30; i++) {
+                createParticle();
+            }
+        });
+    </script>
 </body>
 </html>
